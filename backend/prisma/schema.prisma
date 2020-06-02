@@ -1,0 +1,461 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model bairros {
+  cidade_id        Int
+  id               Int                @default(autoincrement()) @id
+  nome             String
+  cidades          cidades            @relation(fields: [cidade_id], references: [id])
+  locais           locais[]
+  unidade_familiar unidade_familiar[]
+
+  @@index([cidade_id], name: "bairros_cidades_FK")
+}
+
+model cidades {
+  estado_id        Int
+  id               Int                @default(autoincrement()) @id
+  nome             String
+  estados          estados            @relation(fields: [estado_id], references: [id])
+  bairros          bairros[]
+  locais           locais[]
+  unidade_familiar unidade_familiar[]
+
+  @@index([estado_id], name: "cidades_estados_FK")
+}
+
+model cms_contatos {
+  cms_contatos_email String
+  cms_contatos_id    Int    @default(autoincrement()) @id
+  cms_contatos_nome  String
+}
+
+model cms_equipe {
+  cms_equipe_cargo     String?
+  cms_equipe_descricao String
+  cms_equipe_id        Int     @default(autoincrement()) @id
+  cms_equipe_imagem    String
+  cms_equipe_nome      String
+  cms_equipe_titulo    String?
+}
+
+model cms_homeslider {
+  cms_homeslider_id        Int     @default(autoincrement()) @id
+  cms_homeslider_image     String
+  cms_homeslider_ordem     Int
+  cms_homeslider_subtitulo String?
+  cms_homeslider_titulo    String
+}
+
+model cms_mainevent {
+  cms_mainevent_datetime  DateTime?
+  cms_mainevent_descricao String?
+  cms_mainevent_id        Int       @default(autoincrement()) @id
+  cms_mainevent_nome      String?
+}
+
+model cms_ministerios {
+  cms_ministerios_icon   String
+  cms_ministerios_id     Int    @default(autoincrement()) @id
+  cms_ministerios_ordem  Int
+  cms_ministerios_texto  String
+  cms_ministerios_titulo String
+}
+
+model cms_posts {
+  cms_posts_conteudo String
+  cms_posts_id       Int     @default(autoincrement()) @id
+  cms_posts_imagem   String?
+  cms_posts_nome     String
+}
+
+model cms_sobre {
+  cms_sobre_conteudo String
+  cms_sobre_id       Int    @default(autoincrement()) @id
+}
+
+model dizimos {
+  dizimo_data         DateTime
+  dizimo_id           Int              @default(autoincrement()) @id
+  dizimo_valor        Float
+  unidade_familiar_id Int
+  unidade_familiar    unidade_familiar @relation(fields: [unidade_familiar_id], references: [id])
+
+  @@index([unidade_familiar_id], name: "dizimo_unidade_familiar_FK")
+}
+
+model estados {
+  id      Int       @default(autoincrement()) @id
+  nome    String
+  uf      String
+  cidades cidades[]
+}
+
+model estudos {
+  data_fim                                   DateTime?
+  data_inicio                                DateTime?
+  descricao                                  String
+  id                                         Int                     @default(autoincrement()) @id
+  local_id                                   Int
+  obs                                        String?
+  pessoa_id                                  Int
+  pessoa_id_colider                          Int?
+  tipo_estudo_id                             Int
+  locais                                     locais                  @relation(fields: [local_id], references: [id])
+  pessoas_estudos_pessoa_idTopessoas         pessoas                 @relation("estudos_pessoa_idTopessoas", fields: [pessoa_id], references: [id])
+  pessoas_estudos_pessoa_id_coliderTopessoas pessoas?                @relation("estudos_pessoa_id_coliderTopessoas", fields: [pessoa_id_colider], references: [id])
+  tipos_estudos                              tipos_estudos           @relation(fields: [tipo_estudo_id], references: [id])
+  estudos_participantes                      estudos_participantes[]
+
+  @@index([pessoa_id_colider], name: "estudos_FK")
+  @@index([local_id], name: "estudos_locais_FK")
+  @@index([pessoa_id], name: "estudos_pessoas_FK")
+  @@index([tipo_estudo_id], name: "estudos_tipo_estudos_FK")
+}
+
+model estudos_participantes {
+  estudo_id Int
+  id        Int     @default(autoincrement()) @id
+  pessoa_id Int
+  estudos   estudos @relation(fields: [estudo_id], references: [id])
+  pessoas   pessoas @relation(fields: [pessoa_id], references: [id])
+
+  @@index([estudo_id], name: "estudos_participantes_estudos_FK")
+  @@index([pessoa_id], name: "estudos_participantes_pessoas_FK")
+}
+
+model funcao_familiar {
+  descricao String
+  id        Int       @default(autoincrement()) @id
+  pessoas   pessoas[]
+}
+
+model habilidades {
+  id                  Int                   @default(autoincrement()) @id
+  nome                String
+  pessoas_habilidades pessoas_habilidades[]
+}
+
+model locais {
+  bairro_id Int?
+  cidade_id Int
+  endereco  String
+  id        Int        @default(autoincrement()) @id
+  nome      String
+  bairros   bairros?   @relation(fields: [bairro_id], references: [id])
+  cidades   cidades    @relation(fields: [cidade_id], references: [id])
+  estudos   estudos[]
+  reunioes  reunioes[]
+
+  @@index([cidade_id], name: "locais_FK")
+  @@index([bairro_id], name: "locais_bairros_FK")
+}
+
+model ministerios {
+  descricao                                      String
+  id                                             Int                         @default(autoincrement()) @id
+  pessoa_id                                      Int
+  pessoa_id_colider                              Int?
+  tipo_ministerio_id                             Int
+  pessoas_ministerios_pessoa_idTopessoas         pessoas                     @relation("ministerios_pessoa_idTopessoas", fields: [pessoa_id], references: [id])
+  pessoas_ministerios_pessoa_id_coliderTopessoas pessoas?                    @relation("ministerios_pessoa_id_coliderTopessoas", fields: [pessoa_id_colider], references: [id])
+  tipos_ministerios                              tipos_ministerios           @relation(fields: [tipo_ministerio_id], references: [id])
+  ministerios_participantes                      ministerios_participantes[]
+
+  @@index([pessoa_id], name: "ministerios_pessoas_FK")
+  @@index([pessoa_id_colider], name: "ministerios_pessoas_FK_2")
+  @@index([tipo_ministerio_id], name: "ministerios_tipos_ministerios_FK")
+}
+
+model ministerios_participantes {
+  id            Int         @default(autoincrement()) @id
+  ministerio_id Int
+  pessoa_id     Int
+  ministerios   ministerios @relation(fields: [ministerio_id], references: [id])
+  pessoas       pessoas     @relation(fields: [pessoa_id], references: [id])
+
+  @@index([ministerio_id], name: "ministerios_participantes_ministerios_FK")
+  @@index([pessoa_id], name: "ministerios_participantes_pessoas_FK")
+}
+
+model observacoes_pessoas {
+  data_obs  DateTime
+  id        Int      @default(autoincrement()) @id
+  obs       String
+  pessoa_id Int
+  pessoas   pessoas  @relation(fields: [pessoa_id], references: [id])
+
+  @@index([pessoa_id], name: "observacoes_pessoas_pessoas_FK")
+}
+
+model pessoas {
+  email                                                          String?
+  funcao_familiar_id                                             Int?
+  id                                                             Int                         @default(autoincrement()) @id
+  membro                                                         Boolean?
+  nome                                                           String
+  sexo                                                           String?
+  telefone1                                                      String?
+  telefone2                                                      String?
+  unidade_familiar_id                                            Int?
+  funcao_familiar                                                funcao_familiar?            @relation(fields: [funcao_familiar_id], references: [id])
+  unidade_familiar                                               unidade_familiar?           @relation(fields: [unidade_familiar_id], references: [id])
+  estudos_estudos_pessoa_idTopessoas                             estudos[]                   @relation("estudos_pessoa_idTopessoas")
+  estudos_estudos_pessoa_id_coliderTopessoas                     estudos[]                   @relation("estudos_pessoa_id_coliderTopessoas")
+  estudos_participantes                                          estudos_participantes[]
+  ministerios_ministerios_pessoa_idTopessoas                     ministerios[]               @relation("ministerios_pessoa_idTopessoas")
+  ministerios_ministerios_pessoa_id_coliderTopessoas             ministerios[]               @relation("ministerios_pessoa_id_coliderTopessoas")
+  ministerios_participantes                                      ministerios_participantes[]
+  observacoes_pessoas                                            observacoes_pessoas[]
+  pessoas_habilidades                                            pessoas_habilidades[]
+  tipos_ministerios_pessoasTotipos_ministerios_pessoa_id_colider tipos_ministerios[]         @relation("pessoasTotipos_ministerios_pessoa_id_colider")
+  tipos_ministerios_pessoasTotipos_ministerios_pessoa_id_lider   tipos_ministerios[]         @relation("pessoasTotipos_ministerios_pessoa_id_lider")
+
+  @@index([funcao_familiar_id], name: "pessoas_funcao_familiar_FK")
+  @@index([unidade_familiar_id], name: "pessoas_unidade_familiar_FK")
+}
+
+model pessoas_habilidades {
+  habilidade_id Int
+  id            Int         @default(autoincrement()) @id
+  pessoa_id     Int
+  habilidades   habilidades @relation(fields: [habilidade_id], references: [id])
+  pessoas       pessoas     @relation(fields: [pessoa_id], references: [id])
+
+  @@index([pessoa_id], name: "pessoas_habilidades_FK")
+  @@index([habilidade_id], name: "pessoas_habilidades_FK_1")
+}
+
+model reunioes {
+  datar              DateTime
+  dia_fixo           Int
+  horario            DateTime
+  id                 Int      @default(autoincrement()) @id
+  local_id           Int
+  nome               String
+  tipo_ministerio_id Int
+  locais             locais   @relation(fields: [local_id], references: [id])
+
+  @@index([local_id], name: "reunioes_locais_FK")
+}
+
+model system_access_log {
+  id          Int      @id
+  login       String?
+  login_time  DateTime @default(now())
+  logout_time DateTime @default(dbgenerated())
+  sessionid   String?
+}
+
+model system_change_log {
+  columnname String?
+  id         Int      @id
+  logdate    DateTime @default(now())
+  login      String?
+  newvalue   String?
+  oldvalue   String?
+  operation  String?
+  pkvalue    String?
+  primarykey String?
+  tablename  String?
+}
+
+model system_document {
+  archive_date    DateTime?
+  category_id     Int?
+  description     String?
+  filename        String?
+  id              Int       @id
+  submission_date DateTime?
+  system_user_id  Int?
+  title           String?
+}
+
+model system_document_category {
+  id   Int     @id
+  name String?
+}
+
+model system_document_group {
+  document_id     Int?
+  id              Int  @id
+  system_group_id Int?
+}
+
+model system_document_user {
+  document_id    Int?
+  id             Int  @id
+  system_user_id Int?
+}
+
+model system_group {
+  id                   Int                    @id
+  name                 String?
+  system_group_program system_group_program[]
+  system_user_group    system_user_group[]
+}
+
+model system_group_program {
+  id                Int             @id
+  system_group_id   Int?
+  system_program_id Int?
+  system_group      system_group?   @relation(fields: [system_group_id], references: [id])
+  system_program    system_program? @relation(fields: [system_program_id], references: [id])
+
+  @@index([system_group_id], name: "sys_group_program_group_idx")
+  @@index([system_program_id], name: "sys_group_program_program_idx")
+}
+
+model system_message {
+  checked           String?
+  dt_message        String?
+  id                Int     @id
+  message           String?
+  subject           String?
+  system_user_id    Int?
+  system_user_to_id Int?
+}
+
+model system_notification {
+  action_label      String?
+  action_url        String?
+  checked           String?
+  dt_message        String?
+  icon              String?
+  id                Int     @id
+  message           String?
+  subject           String?
+  system_user_id    Int?
+  system_user_to_id Int?
+}
+
+// The underlying table does not contain a unique identifier and can therefore currently not be handled.
+// model system_preference {
+  // id    String?
+  // value String?
+// }
+
+model system_program {
+  controller           String?
+  id                   Int                    @id
+  name                 String?
+  system_group_program system_group_program[]
+  system_user          system_user[]
+  system_user_program  system_user_program[]
+}
+
+model system_sql_log {
+  database_name  String?
+  id             Int      @id
+  logdate        DateTime @default(now())
+  login          String?
+  sql_command    String?
+  statement_type String?
+}
+
+model system_unit {
+  id               Int                @id
+  name             String?
+  system_user_unit system_user_unit[]
+}
+
+model system_user {
+  active              String?
+  email               String?
+  frontpage_id        Int?
+  id                  Int                   @id
+  login               String?
+  name                String?
+  password            String?
+  system_unit_id      Int?
+  system_program      system_program?       @relation(fields: [frontpage_id], references: [id])
+  system_user_group   system_user_group[]
+  system_user_program system_user_program[]
+  system_user_unit    system_user_unit[]
+
+  @@index([frontpage_id], name: "sys_user_program_idx")
+}
+
+model system_user_group {
+  id              Int           @id
+  system_group_id Int?
+  system_user_id  Int?
+  system_group    system_group? @relation(fields: [system_group_id], references: [id])
+  system_user     system_user?  @relation(fields: [system_user_id], references: [id])
+
+  @@index([system_group_id], name: "sys_user_group_group_idx")
+  @@index([system_user_id], name: "sys_user_group_user_idx")
+}
+
+model system_user_program {
+  id                Int             @id
+  system_program_id Int?
+  system_user_id    Int?
+  system_program    system_program? @relation(fields: [system_program_id], references: [id])
+  system_user       system_user?    @relation(fields: [system_user_id], references: [id])
+
+  @@index([system_program_id], name: "sys_user_program_program_idx")
+  @@index([system_user_id], name: "sys_user_program_user_idx")
+}
+
+model system_user_unit {
+  id             Int          @id
+  system_unit_id Int?
+  system_user_id Int?
+  system_unit    system_unit? @relation(fields: [system_unit_id], references: [id])
+  system_user    system_user? @relation(fields: [system_user_id], references: [id])
+
+  @@index([system_unit_id], name: "system_unit_id")
+  @@index([system_user_id], name: "system_user_id")
+}
+
+model tipos_estudos {
+  descricao String
+  id        Int       @default(autoincrement()) @id
+  estudos   estudos[]
+}
+
+model tipos_ministerios {
+  descricao                                            String
+  id                                                   Int           @default(autoincrement()) @id
+  pessoa_id_colider                                    Int?
+  pessoa_id_lider                                      Int?
+  pessoas_pessoasTotipos_ministerios_pessoa_id_colider pessoas?      @relation("pessoasTotipos_ministerios_pessoa_id_colider", fields: [pessoa_id_colider], references: [id])
+  pessoas_pessoasTotipos_ministerios_pessoa_id_lider   pessoas?      @relation("pessoasTotipos_ministerios_pessoa_id_lider", fields: [pessoa_id_lider], references: [id])
+  ministerios                                          ministerios[]
+
+  @@index([pessoa_id_colider], name: "tipos_ministerios_pessoas_colider_FK")
+  @@index([pessoa_id_lider], name: "tipos_ministerios_pessoas_lider_FK")
+}
+
+model unidade_familiar {
+  bairro_id Int?
+  cidade_id Int?
+  descricao String
+  dizimista Boolean?
+  id        Int       @default(autoincrement()) @id
+  numero    String?
+  rua       String?
+  bairros   bairros?  @relation(fields: [bairro_id], references: [id])
+  cidades   cidades?  @relation(fields: [cidade_id], references: [id])
+  dizimos   dizimos[]
+  pessoas   pessoas[]
+
+  @@index([bairro_id], name: "unidade_familiar_bairros_FK")
+  @@index([cidade_id], name: "unidade_familiar_cidades_FK")
+}
+
+model visitas {
+  datav               DateTime
+  id                  Int      @default(autoincrement()) @id
+  obs                 String?
+  unidade_familiar_id Int
+
+  @@index([unidade_familiar_id], name: "visitas_unidade_familiar_FK")
+}
