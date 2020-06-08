@@ -10,12 +10,6 @@
     justify-content: center;
 }
 
-.register-container img {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px;
-}
-
 .register-container section.form {
     width: 100%;
     max-width: 350px;

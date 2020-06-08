@@ -32,7 +32,10 @@ export default function Landing() {
 
             <ul>
                 <li>
-                    <title>Encontro Com Deus</title>
+                    <div className="title">
+                        <strong>Encontro com Deus</strong>
+                        <p>14/Jun</p>
+                    </div>
                     <div className="content">
                         <strong>Horário:</strong>
                         <strong>Limite:</strong>
@@ -41,20 +44,31 @@ export default function Landing() {
                         <p>09:00</p>
                         <p>50</p>
                         <p>32</p>
-
+                        
+                    </div>
+                    <div className="goto">
+                        <FaSignInAlt className="icon" size={20} color="#2056AE" />
+                        Quero ir nesse!
                     </div>
                 </li>
                 <li>
-                    <title>Encontro Com Deus</title>
+                    <div className="title">
+                        <strong>Encontro com Deus</strong>
+                        <p>14/Jun</p>
+                    </div>
                     <div className="content">
-                        <strong>Horário</strong>
-                        <p>09:00</p>
+                        <strong>Horário:</strong>
+                        <strong>Limite:</strong>
+                        <strong>Vagas:</strong>
 
-                        <strong>Limite de Pessoas:</strong>
+                        <p>19:00</p>
                         <p>50</p>
-
-                        <strong>Vagas Disponíveis:</strong>
-                        <p>32</p>
+                        <p>12</p>
+                        
+                    </div>
+                    <div className="goto">
+                        <FaSignInAlt className="icon" size={20} color="#2056AE" />
+                        Quero ir nesse!
                     </div>
                 </li>
                 {/* {reunioes.map(reunioes => (
