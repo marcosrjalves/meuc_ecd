@@ -10,6 +10,7 @@ import { celebrate, Segments, Joi } from 'celebrate';
 // import Sessions from './controllers/SessionController';
 // import File from './controllers/FileController';
 // import Read from './controllers/ReadController';
+import Ecd from './prisma/controllers/ecd_controller'
 
 // // Middlewares
 // import AuthMiddleware from './middlewares/auth';
@@ -26,15 +27,8 @@ const routes = new Router();
 // routes.use(AuthMiddleware);
 
 // // Rotas autenticadas
-routes.get('/', async (req, res) => {
-    // const result = await prisma.user.create({
-    //   data: {
-    //     ...req.body,
-    //   },
-    // })
-    const result = 'ok'
-    res.json(result)
-  });
+routes.get('/lista', Ecd.list);
+routes.post('/euvou', Ecd.create);
 // routes.get('/devocao', Devocoes.show);
 // routes.get('/search', Devocoes.search);
 // routes.get('/profile', Devocoes.listLastSeven);

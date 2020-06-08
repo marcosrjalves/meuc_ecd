@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider  = "prisma-client-js"
 }
 
 datasource db {
@@ -233,14 +233,44 @@ model pessoas_habilidades {
 }
 
 model reunioes {
-  datar              DateTime
-  dia_fixo           Int
-  horario            DateTime
-  id                 Int      @default(autoincrement()) @id
-  local_id           Int
-  nome               String
-  tipo_ministerio_id Int
-  locais             locais   @relation(fields: [local_id], references: [id])
+  datar                  DateTime
+  dia_fixo               Int
+  horario                DateTime
+  id                     Int                      @default(autoincrement()) @id
+  local_id               Int
+  max_pessoas            Int                      @default(0)
+  nome                   String
+  tipo_ministerio_id     Int
+  locais                 locais                   @relation(fields: [local_id], references: [id])
+  // reunioes_participantes reunioes_participantes[]
+
+  @@index([local_id], name: "reunioes_locais_FK")
+}
+
+model reunioes_participantes {
+  ativo       Boolean?    @default(true)
+  dt_cadastro DateTime?   @default(now())
+  id          Int         @default(autoincrement()) @id
+  nome        String
+  qtd_pessoas Int
+  reuniao_id  Int
+  reunioes    reunioes @relation(fields: [reuniao_id], references: [id])
+
+  @@index([reuniao_id], name: "reunioes_participantes_FK")
+}
+
+// add manually
+model participantes_por_reuniao {
+  datar                  DateTime
+  dia_fixo               Int
+  horario                DateTime
+  id                     Int                      @default(autoincrement()) @id
+  local_id               Int
+  max_pessoas            Int                      @default(0)
+  nome                   String
+  qtd_pessoas            Int?
+  tipo_ministerio_id     Int
+  locais                 locais                   @relation(fields: [local_id], references: [id])
 
   @@index([local_id], name: "reunioes_locais_FK")
 }
