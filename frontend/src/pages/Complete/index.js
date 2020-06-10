@@ -14,12 +14,8 @@ export default function Landing() {
     const history = useHistory();
 
     useEffect(() => {
-        api.get('/', {
-
-        }).then(res => {
-            setReunioes(res.data)
-        })
-    })
+        api.get('lista')
+    }, []);
 
     console.log(reunioes);
 

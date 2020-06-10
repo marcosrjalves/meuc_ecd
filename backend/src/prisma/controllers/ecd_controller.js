@@ -20,13 +20,13 @@ class EcdController {
                 }
             })
             
-            return res.json([reunioes])
+            return res.json(reunioes)
 
         } catch (error) {
 
             const message = 'Internal Server Error'
-            console.log(err)
-            res.statusCode = err.statusCode
+            console.log(error)
+            res.statusCode = error.statusCode
             return res.json([message, err])
 
         } finally {
