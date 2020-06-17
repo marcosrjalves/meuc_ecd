@@ -1,51 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { FaWhatsapp, FaSignInAlt } from 'react-icons/fa'
-
-import api from '../../services/api';
+import React, { useState } from 'react';
+import { useHistory, Link } from 'react-router-dom';
+import { FaArrowCircleLeft } from 'react-icons/fa';
 
 import './styles.css';
 
+// Images
 import meucLogo from '../../assets/meuc.svg';
 
-export default function Landing() {
-    const [reunioes, setReunioes] = useState([]);
-
+export default function Complete() {
     const history = useHistory();
+    const nome = localStorage.getItem('nome');
 
-    useEffect(() => {
-        api.get('lista')
-    }, []);
+    async function handleStartOver(e) {
+        e.preventDefault();
 
-    console.log(reunioes);
+        try {
+            history.push('/');
+        } catch (err) {
+            alert('Não foi possível realizar o pedido no momento. Tente mais tarde');
+            console.log(err);
+        }
+    }
 
     return (
-        <div className="landing-container">
-            <img src={meucLogo} alt="logo"/>
+        <div className="complete-container">
+            <img src={meucLogo} className="logo" alt="logo"/>
 
-            <h1>Encontros Disponíveis</h1>
-
-            <ul>
-                {reunioes.map(reunioes => (
-                    <li key={reunioes.id}>
-                        <strong><p>{reunioes.nome}</p></strong>
-
-                        <strong>Horário</strong>
-                        <p>{reunioes.horario}</p>
-
-                        <strong>Limite de Pessoas:</strong>
-                        <p>{reunioes.max_pessoas}</p>
-
-                        <strong>Limite de Pessoas:</strong>
-                        <p>{reunioes.max_pessoas}</p>
-
-                        <strong>Vagas Disponíveis:</strong>
-                        <p>{reunioes.max_pessoas-reunioes.qtd_pessoas}</p>
-
-                    </li>
-                ))}
-                
-            </ul>
+            <section className="form">
+                <form onSubmit={handleStartOver}>
+                    <h1>Presença Confirmada!</h1>
+                    <div className="complete-content">
+                        <b>{nome}</b>, sua presença esta confirmada!<br></br>
+                        Muito obrigado pela informação!
+                    </div>
+                    <div className="complete-content continue">
+                        Dúvidas? Entre em contato com os missionários <br/>
+                        Ou com as lideranças!
+                    </div>
+                    <Link className="alterbutton" to="/">
+                        Voltar
+                        <FaArrowCircleLeft className="icon" size={16} color="#e3e3e3" />
+                    </Link>
+                </form>
+            </section>
         </div>
     )
 }

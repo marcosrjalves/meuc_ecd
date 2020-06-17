@@ -13,11 +13,11 @@
 .register-container section.form {
     width: 100%;
     max-width: 350px;
-    margin: 15px;
+    margin: 10px;
 }
 
 .register-container section.form form {
-    margin-top: 50px;
+    margin-top: 5px;
 }
 
 .register-container section.form form h1 {

@@ -14,6 +14,9 @@ class EcdController {
                         lte: dataFinal,
                         gte: dataInicial,
                     },
+                    // qtd_pessoas: {
+                    //     lt: ,
+                    // },
                     tipo_ministerio_id: {
                         equals: 12
                     }

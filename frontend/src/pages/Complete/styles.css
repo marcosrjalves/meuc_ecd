@@ -1,10 +1,39 @@
-.landing-container {
+.complete-container {
     width: 100%;
     max-width: 1120px;
     height: 100vh;
     margin: 0 auto;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.complete-container section.form {
+    width: 100%;
+    max-width: 350px;
+    margin: 10px;
+}
+
+.complete-container section.form form {
+    margin-top: 5px;
+}
+
+.complete-container section.form form h1 {
+    font-size: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 10px;
+}
+
+.complete-content {
+    text-align: center;
+    line-height: 25px;
+}
+
+.continue {
+    margin-top: 20px;
+    text-align: center;
+    line-height: 25px;
 }

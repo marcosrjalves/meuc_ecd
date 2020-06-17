@@ -2,54 +2,66 @@
     width: 100%;
     max-width: 1120px;
     height: 100vh;
-    margin: 0 auto;
-
+    margin: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
 .landing-container h1 {
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 10px;
     text-align: center;
-    padding: 10px;
+    /* padding: 10px; */
 }
 
 .landing-container ul {
     display: grid;
+    width: 500px;
+    max-width: 100%;
+    /* margin: auto; */
     grid-template-columns: repeat(1, 1fr);
-    grid-gap: 24px;
+    grid-gap: 5px;
+    padding: 5px;
     list-style: none;
 }
 
 .landing-container ul li {
+    display: flex;
+    flex-direction: column;
     background: #fff;
     padding: 24px;
     border-radius: 8px;
     position: relative;
-    margin: 5px;
+    margin: 10px;
+    width: 95%;
+    max-width: 500px;
 }
 
 .landing-container ul li .title {
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
 
+
 .landing-container ul li .title strong {
     text-align: left;
+    justify-content: center;
 }
 
 .landing-container ul li .title p {
     text-align: right;
+    justify-content: center;
 }
 
 .landing-container ul li .content {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
+    gap: 0px 20px;
+    order: 0; 
     background: #fff;
     padding: 5px;
     border-radius: 8px;
@@ -57,17 +69,34 @@
     margin: auto;
 }
 
-.landing-container ul li .content strong p {
-    text-align: center;
-    vertical-align: sub;
+.landing-container ul li .content strong {
+    text-align: right;
+    padding: 2px;
+    vertical-align: baseline;
+}
+
+.landing-container ul li .content p {
+    text-align: left;
+    vertical-align: baseline;
 }
 
 .landing-container .icon {
     margin-right: 10px;
     vertical-align: sub;
+    text-align: right;
 }
 
 .landing-container .goto {
-    text-align: right;
-    margin-top: 10px;
+    justify-content: right;
+    margin-top: 5px;
+    margin-left: auto;
+    color: #41414d;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.linkto {
+    margin-right: 10px;
 }
